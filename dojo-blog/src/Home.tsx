@@ -3,6 +3,7 @@ import BlogList from "./BlogList";
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
+  const [isPending, setIsPending] = useState(true);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -10,11 +11,15 @@ const Home = () => {
       const data = await response.json();
       setBlogs(data);
     };
-    fetchBlogs();
+    setTimeout(() => {
+      fetchBlogs();
+      setIsPending(false);
+    }, 1000); // Simulate a delay
   }, []);
 
   return (
     <div className="home">
+      {isPending && <div className="loading">Loading...</div>}
       <BlogList blogs={blogs} />
     </div>
   );
