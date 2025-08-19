@@ -7,9 +7,20 @@ const Home = () => {
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const response = await fetch("http://localhost:4000/blogs");
-      const data = await response.json();
-      setBlogs(data);
+      try {
+        setIsPending(true);
+        const response = await fetch("http://localhost:4000/blogs");
+        if (!response.ok) {
+          throw new Error("Failed to fetch blogs");
+        }
+        const data = await response.json();
+        setBlogs(data);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+        setBlogs([]);
+      } finally {
+        setIsPending(false);
+      }
     };
     setTimeout(() => {
       fetchBlogs();
