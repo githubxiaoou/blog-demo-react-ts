@@ -8,22 +8,19 @@ type Blog = {
 };
 
 type BlogListProps = {
-  title: string;
   blogs: Blog[];
-  handleDelete?: (id: number) => void;
 };
 
-const BlogList = ({ title, blogs, handleDelete }: BlogListProps) => {
+const BlogList = ({ blogs }: BlogListProps) => {
   return (
-    <div>
-      <h2>{title}</h2>
+    <div className="blog-list">
       {blogs.map((blog) => (
         <div className="blog-preview" key={blog.id}>
           <h2>{blog.title}</h2>
           <p>Written by {blog.author}</p>
-          {handleDelete && (
-            <button onClick={() => handleDelete(blog.id)}>Delete</button>
-          )}
+          <div className="blog-body">
+            <p>{blog.body}</p>
+          </div>
         </div>
       ))}
     </div>
