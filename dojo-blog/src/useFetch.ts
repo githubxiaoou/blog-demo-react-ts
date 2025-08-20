@@ -6,27 +6,39 @@ const useFetch = (url: string) => {
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
   useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
     const fetchBlogs = async () => {
       try {
         setIsPending(true);
-        const response = await fetch(url);
+        const response = await fetch(url, { signal });
         if (!response.ok) {
           throw new Error("Failed to fetch blogs");
         }
         const data = await response.json();
         setData(data);
       } catch (error: any) {
+        // Check if the error is due to the fetch being aborted
+        if (error.name === "AbortError") {
+          console.log("Fetch aborted");
+          return;
+        }
         setError(error.message);
         setData([]);
       } finally {
         setIsPending(false);
       }
     };
-    setTimeout(() => {
+
+    const timeoutId = setTimeout(() => {
       fetchBlogs();
-      setIsPending(false);
     }, 1000); // Simulate a delay
-  }, []);
+
+    return () => {
+      clearTimeout(timeoutId);
+      abortController.abort(); // Cleanup function to abort fetch on component unmount
+    };
+  }, [url]);
   return { data, isPending, error };
 };
 
