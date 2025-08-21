@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Create = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [author, setAuthor] = useState("mario");
   const [isPending, setIsPending] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,6 +21,9 @@ const Create = () => {
     }).then(() => {
       console.log("New blog added");
       setIsPending(false);
+      // Redirect to the home page after adding a new blog
+      // navigate(-1); // This will go back to the previous page, which is Home in this case
+      navigate("/");
     });
   };
 
