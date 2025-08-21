@@ -1,11 +1,5 @@
 import { Link } from "react-router-dom";
-
-type Blog = {
-  id: number;
-  title: string;
-  body: string;
-  author: string;
-};
+import type { Blog } from "./Home";
 
 type BlogListProps = {
   blogs: Blog[];

@@ -1,10 +1,9 @@
-import React from "react";
 import { useEffect, useState } from "react";
 
-const useFetch = (url: string) => {
-  const [data, setData] = useState([]);
+const useFetch = <T>(url: string) => {
+  const [data, setData] = useState<T | null>(null);
   const [isPending, setIsPending] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
@@ -24,7 +23,6 @@ const useFetch = (url: string) => {
           return;
         }
         setError(error.message);
-        setData([]);
       } finally {
         setIsPending(false);
       }
