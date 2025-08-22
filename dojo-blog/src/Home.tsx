@@ -1,5 +1,6 @@
 import BlogList from "./BlogList";
 import useFetch from "./useFetch";
+import { API_BASE_URL } from "./config";
 
 export type Blog = {
   id: number;
@@ -13,7 +14,7 @@ const Home = () => {
     error,
     isPending,
     data: blogs,
-  } = useFetch<Blog[]>("http://localhost:4000/blogs");
+  } = useFetch<Blog[]>(`${API_BASE_URL}/blogs`);
 
   return (
     <div className="home">

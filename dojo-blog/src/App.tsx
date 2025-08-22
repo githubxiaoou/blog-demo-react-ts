@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/blog-demo-react-ts/">
       <Navbar />
       <div className="content">
         <Routes>
